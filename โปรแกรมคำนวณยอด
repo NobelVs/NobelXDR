@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>งบกำไรขาดทุน</title>
+  <style>
+    body { font-family: 'Sarabun', sans-serif; padding: 30px; max-width: 600px; margin: auto; background: #f7f7f7; }
+    input { width: 100%; padding: 8px; margin: 10px 0; }
+    button { padding: 10px 20px; background: #007bff; color: white; border: none; }
+    .result { margin-top: 30px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
+  </style>
+</head>
+<body>
+
+  <h2>📊 โปรแกรมจัดทำงบกำไรขาดทุน</h2>
+  
+  <label>รายได้ (บาท):</label>
+  <input type="number" id="revenue" placeholder="เช่น 35000">
+  
+  <label>ต้นทุนขาย (บาท):</label>
+  <input type="number" id="cost">
+  
+  <label>ค่าใช้จ่ายดำเนินงาน (บาท):</label>
+  <input type="number" id="operating">
+  
+  <label>รายได้อื่น ๆ (บาท):</label>
+  <input type="number" id="other_income" value="0">
+  
+  <label>ค่าใช้จ่ายอื่น ๆ (บาท):</label>
+  <input type="number" id="other_expense" value="0">
+  
+  <button onclick="calculate()">📥 คำนวณ</button>
+  
+  <div class="result" id="output"></div>
+
+  <script>
+    function formatNumber(num) {
+      return num.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+
+    function calculate() {
+      const revenue = parseFloat(document.getElementById('revenue').value) || 0;
+      const cost = parseFloat(document.getElementById('cost').value) || 0;
+      const operating = parseFloat(document.getElementById('operating').value) || 0;
+      const otherIncome = parseFloat(document.getElementById('other_income').value) || 0;
+      const otherExpense = parseFloat(document.getElementById('other_expense').value) || 0;
+
+      const grossProfit = revenue - cost;
+      const operatingProfit = grossProfit - operating;
+      const netProfit = operatingProfit + otherIncome - otherExpense;
+
+      document.getElementById('output').innerHTML = `
+        <h3>📑 งบกำไรขาดทุน</h3>
+        <p>รายได้รวม: <strong>${formatNumber(revenue)} บาท</strong></p>
+        <p>ต้นทุนขาย: ${formatNumber(cost)} บาท</p>
+        <p>กำไรขั้นต้น: ${formatNumber(grossProfit)} บาท</p>
+        <p>ค่าใช้จ่ายดำเนินงาน: ${formatNumber(operating)} บาท</p>
+        <p>กำไรจากการดำเนินงาน: ${formatNumber(operatingProfit)} บาท</p>
+        <p>รายได้อื่น ๆ: ${formatNumber(otherIncome)} บาท</p>
+        <p>ค่าใช้จ่ายอื่น ๆ: ${formatNumber(otherExpense)} บาท</p>
+        <p><strong>✅ กำไรสุทธิ: ${formatNumber(netProfit)} บาท</strong></p>
+      `;
+    }
+  </script>
+
+</body>
+</html>
